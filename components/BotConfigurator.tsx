@@ -10,6 +10,7 @@ interface BotConfiguratorProps {
   isGenerating: boolean;
   setIsGenerating: (loading: boolean) => void;
   onGoToPreview?: () => void;
+  onNavigateToKnowledgeBase: () => void;
 }
 
 export const BotConfigurator: React.FC<BotConfiguratorProps> = ({ 
@@ -17,7 +18,8 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
   onUpdate, 
   isGenerating,
   setIsGenerating,
-  onGoToPreview
+  onGoToPreview,
+  onNavigateToKnowledgeBase
 }) => {
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
@@ -261,7 +263,7 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
         </div>
       </div>
 
-      <div className="px-4 lg:px-8 pb-8 pt-4 flex flex-col gap-4 max-w-4xl mx-auto w-full">
+      <div className="px-4 lg:px-8 pb-8 pt-4 flex flex-col gap-8 max-w-4xl mx-auto w-full">
         {error && (
           <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-md bg-white border-2 border-red-500 text-red-700 px-6 py-4 rounded-2xl flex items-center justify-between shadow-2xl animate-fade-in-up">
             <div className="flex items-center gap-3">
@@ -389,6 +391,12 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
               <p className="text-xs text-slate-500 mb-4 leading-relaxed">
                 Upload PDFs, Word docs, or spreadsheets containing product details, rate sheets, and internal policies. <strong className="text-blue-600">Max 5,000 words per document</strong> for optimal retrieval performance.
               </p>
+              <button 
+                onClick={onNavigateToKnowledgeBase}
+                className="mb-4 flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold rounded-xl transition-all shadow-lg shadow-blue-900/50 active:scale-95"
+              >
+                Manage Documents
+              </button>
               <div 
                 className={`border-2 border-dashed rounded-3xl p-10 flex flex-col items-center justify-center text-center transition-all ${
                   processingState.status !== 'idle' 

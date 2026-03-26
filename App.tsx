@@ -232,6 +232,7 @@ export default function App() {
                 isGenerating={isGenerating}
                 setIsGenerating={setIsGenerating}
                 onGoToPreview={() => setShowPreviewOnMobile(true)}
+                onNavigateToKnowledgeBase={() => setActiveTab('departments')}
               />
             )}
             {activeTab === 'analytics' && <AnalyticsDashboard config={config} />}

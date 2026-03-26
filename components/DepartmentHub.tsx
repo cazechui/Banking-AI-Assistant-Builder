@@ -98,7 +98,7 @@ export const DepartmentHub: React.FC<DepartmentHubProps> = ({ config, onUpdate }
   };
 
   const handleExportAuditLog = () => {
-    alert("Exporting audit log for " + (config.department || "General") + "...");
+    console.log("Exporting audit log for " + (config.department || "General") + "...");
     // In a real app, this would generate a CSV/PDF download
   };
 
@@ -244,6 +244,19 @@ export const DepartmentHub: React.FC<DepartmentHubProps> = ({ config, onUpdate }
             </div>
           )}
 
+          {/* Duplicated Warning Message */}
+          <div className="bg-red-50 border border-red-200 rounded-2xl p-4 mb-6 flex items-start gap-3">
+            <div className="text-red-500 mt-0.5 shrink-0">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-red-800">Important:</h4>
+              <p className="text-xs text-red-600 mt-1 leading-relaxed">
+                This tool is currently a prototype for testing. <strong>Please do not upload any real customer info, passwords, or sensitive company documents.</strong> For demonstration purposes, please utilize sample datasets or publicly available documentation to evaluate the system's capabilities.
+              </p>
+            </div>
+          </div>
+
           {/* Action Buttons Row */}
           <div className="flex items-center justify-end gap-4 mb-6">
             <button 
@@ -302,13 +315,13 @@ export const DepartmentHub: React.FC<DepartmentHubProps> = ({ config, onUpdate }
 
                 <div className="flex items-center gap-1">
                   <button 
-                    onClick={() => alert('Filter options for ' + config.department + ' coming soon.')}
+                    onClick={() => console.log('Filter options for ' + config.department + ' coming soon.')}
                     className="p-2.5 text-slate-500 hover:bg-slate-50 rounded-xl transition-colors"
                   >
                     <Filter className="w-5 h-5" />
                   </button>
                   <button 
-                    onClick={() => alert('Additional management options coming soon.')}
+                    onClick={() => console.log('Additional management options coming soon.')}
                     className="p-2.5 text-slate-500 hover:bg-slate-50 rounded-xl transition-colors"
                   >
                     <MoreVertical className="w-5 h-5" />
@@ -375,14 +388,14 @@ export const DepartmentHub: React.FC<DepartmentHubProps> = ({ config, onUpdate }
               </span>
               <div className="flex items-center gap-4">
                 <button 
-                  onClick={() => alert('Pagination is not implemented in this demo.')}
+                  onClick={() => console.log('Pagination is not implemented in this demo.')}
                   className="flex items-center gap-1 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors"
                 >
                   <ChevronLeft className="w-4 h-4" />
                   Previous
                 </button>
                 <button 
-                  onClick={() => alert('Pagination is not implemented in this demo.')}
+                  onClick={() => console.log('Pagination is not implemented in this demo.')}
                   className="flex items-center gap-1 text-sm font-bold text-slate-900 hover:text-blue-600 transition-colors"
                 >
                   Next
