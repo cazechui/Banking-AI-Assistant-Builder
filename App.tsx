@@ -8,11 +8,35 @@ import { BotConfiguration } from './types';
 import { DEFAULT_CONFIG } from './constants';
 
 // Mock Analytics Component
-const AnalyticsDashboard = () => (
-  <div className="p-4 lg:p-8 space-y-6 lg:space-y-8 max-w-5xl mx-auto w-full">
-    <div className="flex items-center justify-between mb-6">
-      <h2 className="text-2xl font-bold text-slate-800">Performance Analytics</h2>
-      <div className="flex gap-2">
+const AnalyticsDashboard = ({ config }: { config: BotConfiguration }) => (
+  <div className="flex flex-col min-h-full pb-10">
+    {/* Hero Banner */}
+    <div className="relative w-full bg-white overflow-hidden border-b border-slate-200">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <img 
+          src="https://images.unsplash.com/photo-1606836591695-4d58a73eba1e?q=80&w=2342&auto=format&fit=crop" 
+          alt="Modern Office Interior" 
+          className="w-full h-full object-cover object-center opacity-40"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
+      </div>
+
+      {/* Banner Content */}
+      <div className="relative z-10 px-4 lg:px-8 py-8 lg:py-12 max-w-4xl mx-auto w-full flex flex-col items-start text-left">
+        <h2 className="text-xl lg:text-3xl font-bold text-slate-900 mb-2 tracking-tight">
+          Performance Analytics
+        </h2>
+        <p className="text-slate-600 text-sm lg:text-base max-w-xl">
+          Monitor chatbot performance and user interactions for <strong className="text-blue-600">{config.department || 'your department'}</strong>.
+        </p>
+      </div>
+    </div>
+
+    <div className="p-4 lg:p-8 space-y-6 lg:space-y-8 max-w-5xl mx-auto w-full">
+      <div className="flex items-center justify-end mb-6">
+        <div className="flex gap-2">
         <select className="bg-white border border-slate-300 text-slate-700 text-sm rounded-lg p-2.5">
           <option>Last 7 Days</option>
           <option>Last 30 Days</option>
@@ -102,13 +126,40 @@ const AnalyticsDashboard = () => (
       </div>
     </div>
   </div>
+  </div>
 );
 
-const PlaceholderView = ({ title }: { title: string }) => (
-  <div className="flex flex-col items-center justify-center h-full text-slate-400">
-    <svg className="w-16 h-16 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-    <h3 className="text-xl font-semibold">{title}</h3>
-    <p className="mt-2">This module is coming soon.</p>
+const PlaceholderView = ({ title, config }: { title: string; config: BotConfiguration }) => (
+  <div className="flex flex-col min-h-full pb-10">
+    {/* Hero Banner */}
+    <div className="relative w-full bg-white overflow-hidden border-b border-slate-200">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <img 
+          src="https://images.unsplash.com/photo-1606836591695-4d58a73eba1e?q=80&w=2342&auto=format&fit=crop" 
+          alt="Modern Office Interior" 
+          className="w-full h-full object-cover object-center opacity-40"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
+      </div>
+
+      {/* Banner Content */}
+      <div className="relative z-10 px-4 lg:px-8 py-8 lg:py-12 max-w-4xl mx-auto w-full flex flex-col items-start text-left">
+        <h2 className="text-xl lg:text-3xl font-bold text-slate-900 mb-2 tracking-tight">
+          {title}
+        </h2>
+        <p className="text-slate-600 text-sm lg:text-base max-w-xl">
+          Configure {title.toLowerCase()} for <strong className="text-blue-600">{config.department || 'your department'}</strong>.
+        </p>
+      </div>
+    </div>
+
+    <div className="flex-1 flex flex-col items-center justify-center p-8 text-slate-400">
+      <svg className="w-16 h-16 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+      <h3 className="text-xl font-semibold">{title}</h3>
+      <p className="mt-2">This module is coming soon.</p>
+    </div>
   </div>
 );
 
@@ -180,10 +231,10 @@ export default function App() {
               onGoToPreview={() => setShowPreviewOnMobile(true)}
             />
           )}
-          {activeTab === 'analytics' && <AnalyticsDashboard />}
+          {activeTab === 'analytics' && <AnalyticsDashboard config={config} />}
           {activeTab === 'departments' && <DepartmentHub config={config} onUpdate={setConfig} />}
-          {activeTab === 'history' && <PlaceholderView title="Version History" />}
-          {activeTab === 'settings' && <PlaceholderView title="Settings" />}
+          {activeTab === 'history' && <PlaceholderView title="Version History" config={config} />}
+          {activeTab === 'settings' && <PlaceholderView title="Settings" config={config} />}
         </div>
 
         {/* Right Panel: Preview (Always visible for Config, optional for others) */}

@@ -49,15 +49,33 @@ export const DepartmentHub: React.FC<DepartmentHubProps> = ({ config, onUpdate }
   });
 
   return (
-    <div className="p-4 lg:p-6 lg:p-8 space-y-6 lg:space-y-8 max-w-5xl mx-auto w-full">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h2 className="text-3xl font-bold text-slate-800">Department Hub</h2>
-          <p className="text-slate-500 mt-2 text-sm">Manage knowledge base documents and settings for <strong className="text-blue-600">{currentDepartment}</strong>.</p>
+    <div className="flex flex-col min-h-full pb-10">
+      {/* Hero Banner */}
+      <div className="relative w-full bg-white overflow-hidden border-b border-slate-200">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1606836591695-4d58a73eba1e?q=80&w=2342&auto=format&fit=crop" 
+            alt="Modern Office Interior" 
+            className="w-full h-full object-cover object-center opacity-40"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
+        </div>
+
+        {/* Banner Content */}
+        <div className="relative z-10 px-4 lg:px-8 py-8 lg:py-12 max-w-4xl mx-auto w-full flex flex-col items-start text-left">
+          <h2 className="text-xl lg:text-3xl font-bold text-slate-900 mb-2 tracking-tight">
+            Department Hub
+          </h2>
+          <p className="text-slate-600 text-sm lg:text-base max-w-xl">
+            Manage knowledge base documents and settings for <strong className="text-blue-600">{currentDepartment}</strong>.
+          </p>
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="p-4 lg:p-6 lg:p-8 space-y-6 lg:space-y-8 max-w-5xl mx-auto w-full">
+        <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
         <div className="px-6 py-5 lg:px-8 lg:py-6 border-b border-slate-50 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-50 rounded-xl text-blue-500">
@@ -128,6 +146,7 @@ export const DepartmentHub: React.FC<DepartmentHubProps> = ({ config, onUpdate }
               ))}
             </div>
           )}
+        </div>
         </div>
       </div>
     </div>

@@ -212,9 +212,9 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
         {/* Background Image */}
         <div className="absolute inset-0">
           <img 
-            src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1920&q=80" 
-            alt="Banking Professional Background" 
-            className="w-full h-full object-cover opacity-40"
+            src="https://images.unsplash.com/photo-1606836591695-4d58a73eba1e?q=80&w=2342&auto=format&fit=crop" 
+            alt="Modern Office Interior" 
+            className="w-full h-full object-cover object-center opacity-40"
             referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
@@ -226,13 +226,13 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
             Financial AI Chatbots
           </h2>
           <p className="text-slate-600 text-sm lg:text-base max-w-xl">
-            Create a helpful AI chatbot to assist end customers using your department's specific documents and rules.
+            Create a helpful AI chatbot to assist end customers using specific documents and rules for <strong className="text-blue-600">{config.department || 'your department'}</strong>.
           </p>
         </div>
       </div>
 
       {/* Persistent Department Selector */}
-      <div className="sticky top-0 z-20 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+      <div className="bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
         <div className="max-w-4xl mx-auto w-full px-4 lg:px-8 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
@@ -359,7 +359,7 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
               <div>
                 <h4 className="text-sm font-bold text-red-800">Important: This is just a test version</h4>
                 <p className="text-xs text-red-600 mt-1 leading-relaxed">
-                  This tool is currently a prototype for testing. <strong>Please do not upload any real customer info, passwords, or secret company documents.</strong> Instead, try uploading some fake example files or public information to see how it works!
+                  This tool is currently a prototype for testing. <strong>Please do not upload any real customer info, passwords, or sensitive company documents.</strong> Instead, try uploading some fake example files or public information to see how it works!
                 </p>
               </div>
             </div>
