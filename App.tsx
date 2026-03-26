@@ -238,8 +238,8 @@ export default function App() {
         </div>
 
         {/* Right Panel: Preview (Always visible for Config, optional for others) */}
-        <div className={`w-full lg:w-5/12 h-full bg-[#f8f9fc] border-l border-slate-100 z-10 flex-col p-4 lg:p-6 ${showPreviewOnMobile ? 'flex' : 'hidden lg:flex'}`}>
-          <div className="w-full h-full bg-white rounded-3xl lg:rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden flex flex-col relative">
+        <div className={`w-full lg:w-5/12 h-full bg-[#f8f9fc] border-l border-slate-100 z-10 flex-col p-2 lg:p-4 ${showPreviewOnMobile ? 'flex' : 'hidden lg:flex'}`}>
+          <div className="w-full h-full bg-white rounded-2xl lg:rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden flex flex-col relative">
             <ChatPreview config={config} onGoToConfig={() => setShowPreviewOnMobile(false)} />
           </div>
         </div>
