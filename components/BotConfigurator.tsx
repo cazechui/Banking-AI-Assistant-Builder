@@ -207,15 +207,61 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
 
   return (
     <div className="flex flex-col min-h-full pb-10">
-      {/* Header */}
-      <div className="px-4 lg:px-6 py-5 lg:px-8 lg:py-6 lg:py-8 bg-[#f8f9fc]/95 backdrop-blur-sm sticky top-0 z-10 border-b border-slate-200/50">
-        <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 flex items-center gap-3">
-          Financial RAG AI chatbots
-        </h2>
-        <p className="text-slate-500 mt-2 text-sm">Build and configure specialized AI agents grounded securely in your internal knowledge base.</p>
+      {/* Hero Banner */}
+      <div className="relative w-full bg-white overflow-hidden border-b border-slate-200">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1920&q=80" 
+            alt="Banking Professional Background" 
+            className="w-full h-full object-cover opacity-40"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
+        </div>
+
+        {/* Banner Content */}
+        <div className="relative z-10 px-4 lg:px-8 py-8 lg:py-12 max-w-4xl mx-auto w-full flex flex-col items-start text-left">
+          <h2 className="text-xl lg:text-3xl font-bold text-slate-900 mb-2 tracking-tight">
+            Financial AI Chatbots
+          </h2>
+          <p className="text-slate-600 text-sm lg:text-base max-w-xl">
+            Create a helpful AI chatbot to assist end customers using your department's specific documents and rules.
+          </p>
+        </div>
       </div>
 
-      <div className="px-4 lg:px-8 pb-10 space-y-6 lg:space-y-8 max-w-4xl mx-auto w-full">
+      {/* Persistent Department Selector */}
+      <div className="sticky top-0 z-20 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div className="max-w-4xl mx-auto w-full px-4 lg:px-8 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+            </div>
+            <div>
+              <h3 className="font-semibold text-slate-800 text-sm">Target Department</h3>
+              <p className="text-xs text-slate-500">Choose which department's documents this assistant will learn from</p>
+            </div>
+          </div>
+          <div className="relative min-w-[280px]">
+            <select 
+              className="w-full appearance-none rounded-xl bg-slate-50 border border-slate-200 py-2.5 pl-4 pr-10 text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition shadow-sm cursor-pointer"
+              value={config.department}
+              onChange={(e) => handleDepartmentChange(e.target.value as Department)}
+            >
+              <option value="">Select a Department...</option>
+              {Object.values(Department).map((d) => (
+                <option key={d} value={d}>{d}</option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="px-4 lg:px-8 pb-10 pt-8 flex flex-col max-w-4xl mx-auto w-full">
         {error && (
           <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-md bg-white border-2 border-red-500 text-red-700 px-6 py-4 rounded-2xl flex items-center justify-between shadow-2xl animate-fade-in-up">
             <div className="flex items-center gap-3">
@@ -230,38 +276,6 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
           </div>
         )}
         
-        {/* SECTION 0: DEPARTMENT */}
-        <section className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-          <div className="px-6 py-5 lg:px-8 lg:py-6 border-b border-slate-50 flex items-center gap-3">
-            <div className="p-2 bg-blue-50 rounded-xl text-blue-500">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
-            </div>
-            <h3 className="font-semibold text-slate-800 text-lg">Select Department</h3>
-          </div>
-          <div className="p-6 lg:p-8">
-            <div className="relative">
-              <select 
-                className="w-full appearance-none rounded-2xl bg-slate-50 border-transparent py-4 pl-4 pr-10 text-base font-medium text-slate-800 focus:ring-2 focus:ring-blue-500 focus:bg-white transition shadow-sm"
-                value={config.department}
-                onChange={(e) => handleDepartmentChange(e.target.value as Department)}
-              >
-                <option value="">Choose a department...</option>
-                {Object.values(Department).map((d) => (
-                  <option key={d} value={d}>{d}</option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-              </div>
-            </div>
-            <p className="text-sm text-slate-500 mt-3">
-              This determines the core identity of the assistant and ensures documents are securely partitioned to the correct department's knowledge base.
-            </p>
-          </div>
-        </section>
-
         {/* SECTION 1: IDENTITY */}
         <section className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
           <div className="px-6 py-5 lg:px-8 lg:py-6 border-b border-slate-50 flex items-center gap-3">
@@ -315,7 +329,13 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
           </div>
         </section>
 
-        {/* SECTION 2: KNOWLEDGE BASE (RAG) */}
+        <div className="flex justify-center py-2 lg:py-3 opacity-60">
+          <svg className="w-6 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0 0l-4-4m4 4l4-4" />
+          </svg>
+        </div>
+
+        {/* SECTION 2: KNOWLEDGE BASE */}
         <section className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
            <div className="px-6 py-5 lg:px-8 lg:py-6 border-b border-slate-50 flex items-center gap-3">
             <div className="p-2 bg-blue-50 rounded-xl text-blue-500">
@@ -323,9 +343,27 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             </div>
-            <h3 className="font-semibold text-slate-800 text-lg">Department Knowledge Base (RAG)</h3>
+            <div>
+              <h3 className="font-semibold text-slate-800 text-lg">Department Knowledge Base (RAG)</h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Retrieval-Augmented Generation: The AI generates its answers by referencing the documents you provide.
+              </p>
+            </div>
           </div>
           <div className="p-6 lg:p-8 space-y-8">
+            {/* Prototype Warning */}
+            <div className="bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3">
+              <div className="text-red-500 mt-0.5 shrink-0">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-red-800">Important: This is just a test version</h4>
+                <p className="text-xs text-red-600 mt-1 leading-relaxed">
+                  This tool is currently a prototype for testing. <strong>Please do not upload any real customer info, passwords, or secret company documents.</strong> Instead, try uploading some fake example files or public information to see how it works!
+                </p>
+              </div>
+            </div>
+
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">Upload Department Documents</label>
               <p className="text-xs text-slate-500 mb-4 leading-relaxed">
@@ -415,6 +453,12 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
           </div>
         </section>
 
+        <div className="flex justify-center py-2 lg:py-3 opacity-60">
+          <svg className="w-6 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0 0l-4-4m4 4l4-4" />
+          </svg>
+        </div>
+
         {/* SECTION 3: STRATEGY */}
         <section className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
            <div className="px-6 py-5 lg:px-8 lg:py-6 border-b border-slate-50 flex items-center gap-3">
@@ -451,6 +495,12 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
             </div>
           </div>
         </section>
+
+        <div className="flex justify-center py-2 lg:py-3 opacity-60">
+          <svg className="w-6 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0 0l-4-4m4 4l4-4" />
+          </svg>
+        </div>
 
         {/* SECTION 4: AGENT SKILLS (TOOLS) */}
         <section className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
@@ -496,6 +546,12 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
             </div>
           </div>
         </section>
+
+        <div className="flex justify-center py-2 lg:py-3 opacity-60">
+          <svg className="w-6 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0 0l-4-4m4 4l4-4" />
+          </svg>
+        </div>
 
          {/* SECTION 5: ESCALATION & HANDOFF */}
         <section className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
@@ -548,6 +604,12 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
             </div>
           </div>
         </section>
+
+        <div className="flex justify-center py-2 lg:py-3 opacity-60">
+          <svg className="w-6 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0 0l-4-4m4 4l4-4" />
+          </svg>
+        </div>
 
         {/* SECTION 6: SECURITY */}
         <section className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
@@ -614,6 +676,12 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
             </div>
           </div>
         </section>
+
+        <div className="flex justify-center py-2 lg:py-3 opacity-60">
+          <svg className="w-6 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0 0l-4-4m4 4l4-4" />
+          </svg>
+        </div>
 
         {/* SECTION 7: CORE SYSTEM */}
         <section className="bg-slate-900 rounded-3xl shadow-xl border border-slate-800 overflow-hidden relative">

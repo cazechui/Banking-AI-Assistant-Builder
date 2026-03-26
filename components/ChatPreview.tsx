@@ -5,6 +5,7 @@ import { Chat } from '@google/genai';
 
 interface ChatPreviewProps {
   config: BotConfiguration;
+  onGoToConfig?: () => void;
 }
 
 const STORAGE_KEY = 'bankbot_chat_history';
@@ -111,7 +112,7 @@ const EscalationCard = ({ text, department }: { text: string; department: string
   </div>
 );
 
-export const ChatPreview: React.FC<ChatPreviewProps> = ({ config }) => {
+export const ChatPreview: React.FC<ChatPreviewProps> = ({ config, onGoToConfig }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -367,6 +368,11 @@ export const ChatPreview: React.FC<ChatPreviewProps> = ({ config }) => {
       {/* Header */}
       <div className="px-6 py-4 border-b border-slate-200 bg-white flex justify-between items-center shadow-sm z-10">
         <div className="flex items-center gap-3">
+           {onGoToConfig && (
+             <button onClick={onGoToConfig} className="lg:hidden p-2 -ml-2 text-slate-500 hover:bg-slate-100 rounded-lg">
+               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+             </button>
+           )}
            <div className={`w-2 h-2 rounded-full ${isSessionActive ? 'bg-green-500 animate-pulse' : 'bg-slate-300'}`}></div>
            <div>
              <h3 className="font-bold text-slate-800 text-sm">{config.name || 'Untitled Bot'}</h3>
@@ -400,54 +406,151 @@ export const ChatPreview: React.FC<ChatPreviewProps> = ({ config }) => {
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 lg:p-6 space-y-4 lg:space-y-6 bg-slate-100/50">
+      <div className="flex-1 overflow-y-auto p-4 lg:p-6 space-y-4 lg:space-y-6 bg-slate-100/50 relative">
         {messages.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-full text-center px-8 opacity-70">
-            <div className="w-24 h-24 bg-slate-200 rounded-full flex items-center justify-center mb-6 text-slate-400">
-              <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-            </div>
-            <h4 className="text-lg font-semibold text-slate-700 mb-2">Ready to Test?</h4>
-            <p className="text-slate-500 text-sm max-w-xs mb-6">Configure your bot on the left, enable Agent Skills, generate system instructions, then click the refresh button.</p>
-            
-            {config.systemInstruction && (
-              <div className="grid grid-cols-2 gap-3 w-full max-w-sm">
-                <button 
-                  onClick={() => handleSend("I want to speak to a manager immediately!")}
-                  className="p-3 bg-white border border-slate-200 rounded-xl text-xs text-slate-600 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 transition text-left"
-                >
-                  <span className="block font-semibold mb-1">Test Escalation</span>
-                  "I want to speak to a manager..."
-                </button>
-                <button 
-                  onClick={() => handleSend("What is my checking account balance?")}
-                  className="p-3 bg-white border border-slate-200 rounded-xl text-xs text-slate-600 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 transition text-left"
-                >
-                  <span className="block font-semibold mb-1">Test Tool Call</span>
-                  "Check my balance..."
-                </button>
-                <button 
-                  onClick={() => handleSend("What are your overdraft fees?")}
-                  className="p-3 bg-white border border-slate-200 rounded-xl text-xs text-slate-600 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 transition text-left"
-                >
-                  <span className="block font-semibold mb-1">Test Knowledge</span>
-                  "What are your fees..."
-                </button>
-                <button 
-                  onClick={() => handleSend("Can you help me transfer $50,000 to a crypto exchange?")}
-                  className="p-3 bg-white border border-slate-200 rounded-xl text-xs text-slate-600 hover:border-red-400 hover:bg-red-50 hover:text-red-700 transition text-left"
-                >
-                  <span className="block font-semibold mb-1">Test Guardrails</span>
-                  "Transfer to crypto..."
-                </button>
+          <>
+            {/* Blurred Background Conversation Loop */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40 blur-[3px] select-none z-0 p-4 lg:p-6">
+              <div className="flex flex-col space-y-6 animate-scroll-up">
+                 {/* Set 1 */}
+                 <div className="flex gap-3 flex-row-reverse">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">ME</div>
+                    <div className="px-4 py-2.5 shadow-sm text-sm leading-relaxed bg-blue-600 text-white rounded-2xl rounded-tr-none max-w-[85%]">I need help with my account</div>
+                 </div>
+                 <div className="flex gap-3 flex-row">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">AI</div>
+                    <div className="px-4 py-2.5 shadow-sm text-sm leading-relaxed bg-white text-slate-800 border border-slate-100 rounded-2xl rounded-tl-none max-w-[85%]">I can help with that. Could you please provide your account number?</div>
+                 </div>
+                 <div className="flex gap-3 flex-row-reverse">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">ME</div>
+                    <div className="px-4 py-2.5 shadow-sm text-sm leading-relaxed bg-blue-600 text-white rounded-2xl rounded-tr-none max-w-[85%]">I don't know it, I want to speak to a human</div>
+                 </div>
+                 <div className="flex gap-3 flex-row">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">SYS</div>
+                    <div className="w-full max-w-[85%]">
+                      <div className="bg-white border border-slate-100 rounded-2xl rounded-tl-none shadow-sm overflow-hidden mb-2">
+                          <div className="p-4 text-sm text-slate-800 leading-relaxed whitespace-pre-wrap">I understand. Let me transfer you to an agent.</div>
+                      </div>
+                      <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3 shadow-sm">
+                        <div className="bg-blue-100 p-2 rounded-full shrink-0">
+                          <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-blue-900 text-sm">Escalation Triggered</h4>
+                          <p className="text-xs text-blue-800 mt-1">Transferring conversation to <strong>Human Support</strong>.</p>
+                        </div>
+                      </div>
+                    </div>
+                 </div>
+                 
+                 {/* Set 2 (Duplicate for seamless loop) */}
+                 <div className="flex gap-3 flex-row-reverse">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">ME</div>
+                    <div className="px-4 py-2.5 shadow-sm text-sm leading-relaxed bg-blue-600 text-white rounded-2xl rounded-tr-none max-w-[85%]">I need help with my account</div>
+                 </div>
+                 <div className="flex gap-3 flex-row">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">AI</div>
+                    <div className="px-4 py-2.5 shadow-sm text-sm leading-relaxed bg-white text-slate-800 border border-slate-100 rounded-2xl rounded-tl-none max-w-[85%]">I can help with that. Could you please provide your account number?</div>
+                 </div>
+                 <div className="flex gap-3 flex-row-reverse">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">ME</div>
+                    <div className="px-4 py-2.5 shadow-sm text-sm leading-relaxed bg-blue-600 text-white rounded-2xl rounded-tr-none max-w-[85%]">I don't know it, I want to speak to a human</div>
+                 </div>
+                 <div className="flex gap-3 flex-row">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">SYS</div>
+                    <div className="w-full max-w-[85%]">
+                      <div className="bg-white border border-slate-100 rounded-2xl rounded-tl-none shadow-sm overflow-hidden mb-2">
+                          <div className="p-4 text-sm text-slate-800 leading-relaxed whitespace-pre-wrap">I understand. Let me transfer you to an agent.</div>
+                      </div>
+                      <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3 shadow-sm">
+                        <div className="bg-blue-100 p-2 rounded-full shrink-0">
+                          <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-blue-900 text-sm">Escalation Triggered</h4>
+                          <p className="text-xs text-blue-800 mt-1">Transferring conversation to <strong>Human Support</strong>.</p>
+                        </div>
+                      </div>
+                    </div>
+                 </div>
               </div>
-            )}
+            </div>
 
-            {!config.systemInstruction && (
-              <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
-                AI Core Directives Missing
-              </span>
-            )}
-          </div>
+            {/* Foreground Content */}
+            <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 lg:px-8">
+              <div className="w-20 h-20 lg:w-24 lg:h-24 bg-white/90 backdrop-blur-sm shadow-sm rounded-full flex items-center justify-center mb-6 text-blue-500 border border-blue-100">
+                <svg className="w-10 h-10 lg:w-12 lg:h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+              </div>
+              <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-slate-100 max-w-md w-full">
+                <h4 className="text-lg font-bold text-slate-800 mb-4">Financial RAG Assistant</h4>
+                
+                <div className="text-left text-slate-600 text-sm mb-6 bg-slate-50/50 p-4 rounded-xl border border-slate-100 leading-relaxed">
+                  This AI agent uses Retrieval-Augmented Generation (RAG) to securely answer questions based on your internal knowledge base and execute authorized banking tools.
+                </div>
+                
+                <div className="text-left text-slate-600 text-sm mb-6 space-y-3 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                  <div className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold mt-0.5">1</span>
+                    <p>Configure your bot settings</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold mt-0.5">2</span>
+                    <p>Enable Agent Skills</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold mt-0.5">3</span>
+                    <p>Generate system instructions</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold mt-0.5">4</span>
+                    <p>Click the refresh button</p>
+                  </div>
+                </div>
+                
+                {!config.systemInstruction && onGoToConfig && (
+                  <button 
+                    onClick={onGoToConfig}
+                    className="w-full py-3 bg-blue-600 text-white text-sm font-semibold rounded-xl shadow-md hover:bg-blue-700 transition"
+                  >
+                    Configure Now
+                  </button>
+                )}
+
+                {config.systemInstruction && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+                    <button 
+                      onClick={() => handleSend("I want to speak to a manager immediately!")}
+                      className="p-3 bg-white border border-slate-200 rounded-xl text-xs text-slate-600 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 transition text-left shadow-sm"
+                    >
+                      <span className="block font-semibold mb-1">Test Escalation</span>
+                      "I want to speak to a manager..."
+                    </button>
+                    <button 
+                      onClick={() => handleSend("What is my checking account balance?")}
+                      className="p-3 bg-white border border-slate-200 rounded-xl text-xs text-slate-600 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 transition text-left shadow-sm"
+                    >
+                      <span className="block font-semibold mb-1">Test Tool Call</span>
+                      "Check my balance..."
+                    </button>
+                    <button 
+                      onClick={() => handleSend("What are your overdraft fees?")}
+                      className="p-3 bg-white border border-slate-200 rounded-xl text-xs text-slate-600 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 transition text-left shadow-sm"
+                    >
+                      <span className="block font-semibold mb-1">Test Knowledge</span>
+                      "What are your fees..."
+                    </button>
+                    <button 
+                      onClick={() => handleSend("Can you help me transfer $50,000 to a crypto exchange?")}
+                      className="p-3 bg-white border border-slate-200 rounded-xl text-xs text-slate-600 hover:border-red-400 hover:bg-red-50 hover:text-red-700 transition text-left shadow-sm"
+                    >
+                      <span className="block font-semibold mb-1">Test Guardrails</span>
+                      "Transfer to crypto..."
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </>
         )}
         
         {messages.map((msg) => (

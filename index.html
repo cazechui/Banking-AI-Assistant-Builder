@@ -19,6 +19,16 @@
           -ms-overflow-style: none;
           scrollbar-width: none;
       }
+      @keyframes scroll-up {
+        0%, 15% { transform: translateY(0); }
+        25%, 40% { transform: translateY(-12.5%); }
+        50%, 65% { transform: translateY(-25%); }
+        75%, 90% { transform: translateY(-37.5%); }
+        100% { transform: translateY(-50%); }
+      }
+      .animate-scroll-up {
+        animation: scroll-up 4.8s ease-in-out infinite;
+      }
     </style>
   <script type="importmap">
 {

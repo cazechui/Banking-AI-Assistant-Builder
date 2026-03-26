@@ -116,7 +116,7 @@ export default function App() {
   const [config, setConfig] = useState<BotConfiguration>(DEFAULT_CONFIG);
   const [isGenerating, setIsGenerating] = useState(false);
   const [activeTab, setActiveTab] = useState('config');
-  const [showPreviewOnMobile, setShowPreviewOnMobile] = useState(false);
+  const [showPreviewOnMobile, setShowPreviewOnMobile] = useState(true);
 
   return (
     <div className="flex h-[100dvh] w-full bg-[#f8f9fc] text-slate-900 font-sans flex-col lg:flex-row">
@@ -189,7 +189,7 @@ export default function App() {
         {/* Right Panel: Preview (Always visible for Config, optional for others) */}
         <div className={`w-full lg:w-5/12 h-full bg-[#f8f9fc] border-l border-slate-100 z-10 flex-col p-4 lg:p-6 ${showPreviewOnMobile ? 'flex' : 'hidden lg:flex'}`}>
           <div className="w-full h-full bg-white rounded-3xl lg:rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden flex flex-col relative">
-            <ChatPreview config={config} />
+            <ChatPreview config={config} onGoToConfig={() => setShowPreviewOnMobile(false)} />
           </div>
         </div>
 
