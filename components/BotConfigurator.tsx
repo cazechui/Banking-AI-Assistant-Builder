@@ -231,7 +231,7 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
         </div>
       </div>
 
-      {/* Persistent Department Selector */}
+      {/* Persistent Service Selector */}
       <div className="bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
         <div className="max-w-4xl mx-auto w-full px-4 lg:px-8 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -239,8 +239,8 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
             </div>
             <div>
-              <h3 className="font-semibold text-slate-800 text-sm">Target Department</h3>
-              <p className="text-xs text-slate-500">Choose which department's documents this assistant will learn from</p>
+              <h3 className="font-semibold text-slate-800 text-sm">Target Service</h3>
+              <p className="text-xs text-slate-500">Choose which service's documents this assistant will learn from</p>
             </div>
           </div>
           <div className="relative min-w-[280px]">
@@ -249,7 +249,7 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
               value={config.department}
               onChange={(e) => handleDepartmentChange(e.target.value as Department)}
             >
-              <option value="">Select a Department...</option>
+              <option value="">Select a Service...</option>
               {Object.values(Department).map((d) => (
                 <option key={d} value={d}>{d}</option>
               ))}
@@ -261,7 +261,7 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
         </div>
       </div>
 
-      <div className="px-4 lg:px-8 pb-10 pt-8 flex flex-col max-w-4xl mx-auto w-full">
+      <div className="px-4 lg:px-8 pb-8 pt-4 flex flex-col gap-4 max-w-4xl mx-auto w-full">
         {error && (
           <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-md bg-white border-2 border-red-500 text-red-700 px-6 py-4 rounded-2xl flex items-center justify-between shadow-2xl animate-fade-in-up">
             <div className="flex items-center gap-3">
@@ -276,7 +276,7 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
           </div>
         )}
         
-        {/* SECTION 1: IDENTITY */}
+        {/* SECTION 1: IDENTITY & STRATEGY */}
         <section className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
           <div className="px-6 py-5 lg:px-8 lg:py-6 border-b border-slate-50 flex items-center gap-3">
             <div className="p-2 bg-blue-50 rounded-xl text-blue-500">
@@ -284,7 +284,12 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
               </svg>
             </div>
-            <h3 className="font-semibold text-slate-800 text-lg">Agent Persona & AI Engine</h3>
+            <div>
+              <h3 className="font-semibold text-slate-800 text-lg">Agent Identity & Strategy</h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Define the identity, role, tone, and primary goals for your assistant.
+              </p>
+            </div>
           </div>
           
           <div className="p-6 lg:p-8 space-y-6">
@@ -325,28 +330,43 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
                   placeholder="e.g. Senior Mortgage Advisor"
                 />
               </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Tone of Voice</label>
+                <input 
+                  type="text" 
+                  value={config.tone}
+                  onChange={(e) => onUpdate({...config, tone: e.target.value})}
+                  className="w-full rounded-2xl bg-slate-50 border-transparent p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
+                  placeholder="e.g. Professional, Empathetic"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Primary Goal</label>
+              <textarea 
+                value={config.goal}
+                onChange={(e) => onUpdate({...config, goal: e.target.value})}
+                rows={2}
+                placeholder="What is the main purpose of this bot?"
+                className="w-full rounded-2xl bg-slate-50 border-transparent p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
+              />
             </div>
           </div>
         </section>
-
-        <div className="flex justify-center py-2 lg:py-3 opacity-60">
-          <svg className="w-6 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0 0l-4-4m4 4l4-4" />
-          </svg>
-        </div>
-
+  
         {/* SECTION 2: KNOWLEDGE BASE */}
         <section className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
            <div className="px-6 py-5 lg:px-8 lg:py-6 border-b border-slate-50 flex items-center gap-3">
             <div className="p-2 bg-blue-50 rounded-xl text-blue-500">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </div>
             <div>
-              <h3 className="font-semibold text-slate-800 text-lg">Department Knowledge Base (RAG)</h3>
+              <h3 className="font-semibold text-slate-800 text-lg">Service Knowledge Base (RAG)</h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                Retrieval-Augmented Generation: The AI generates its answers by referencing the documents you provide.
+                The AI chatbot generates its answers to customers by referencing the documents from your service you provided.
               </p>
             </div>
           </div>
@@ -357,15 +377,15 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
               </div>
               <div>
-                <h4 className="text-sm font-bold text-red-800">Important: This is just a test version</h4>
+                <h4 className="text-sm font-bold text-red-800">Important:</h4>
                 <p className="text-xs text-red-600 mt-1 leading-relaxed">
-                  This tool is currently a prototype for testing. <strong>Please do not upload any real customer info, passwords, or sensitive company documents.</strong> Instead, try uploading some fake example files or public information to see how it works!
+                  This tool is currently a prototype for testing. <strong>Please do not upload any real customer info, passwords, or sensitive company documents.</strong> For demonstration purposes, please utilize sample datasets or publicly available documentation to evaluate the system's capabilities.
                 </p>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Upload Department Documents</label>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Upload Service Documents</label>
               <p className="text-xs text-slate-500 mb-4 leading-relaxed">
                 Upload PDFs, Word docs, or spreadsheets containing product details, rate sheets, and internal policies. <strong className="text-blue-600">Max 5,000 words per document</strong> for optimal retrieval performance.
               </p>
@@ -447,62 +467,13 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
                 onChange={(e) => onUpdate({...config, knowledgeBase: e.target.value})}
                 rows={4}
                 placeholder="e.g. Overdraft fee is $35. ATM withdrawal limit is $500/day. Branch hours are 9am-5pm..."
-                className="w-full rounded-2xl bg-slate-50 border-transparent p-4 text-sm focus:ring-2 focus:ring-blue-500 focus:bg-white transition font-mono leading-relaxed"
+                className="w-full rounded-2xl bg-slate-50 border-transparent p-4 text-sm focus:ring-2 focus:ring-blue-500 focus:bg-white transition leading-relaxed"
               />
             </div>
           </div>
         </section>
-
-        <div className="flex justify-center py-2 lg:py-3 opacity-60">
-          <svg className="w-6 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0 0l-4-4m4 4l4-4" />
-          </svg>
-        </div>
-
-        {/* SECTION 3: STRATEGY */}
-        <section className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-           <div className="px-6 py-5 lg:px-8 lg:py-6 border-b border-slate-50 flex items-center gap-3">
-            <div className="p-2 bg-slate-100 rounded-xl text-slate-500">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-              </svg>
-            </div>
-            <h3 className="font-semibold text-slate-800 text-lg">Strategy & Behavior</h3>
-          </div>
-          <div className="p-6 lg:p-8 space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Primary Goal</label>
-              <textarea 
-                value={config.goal}
-                onChange={(e) => onUpdate({...config, goal: e.target.value})}
-                rows={2}
-                placeholder="What is the main purpose of this bot?"
-                className="w-full rounded-2xl bg-slate-50 border-transparent p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Tone of Voice</label>
-                <input 
-                  type="text" 
-                  value={config.tone}
-                  onChange={(e) => onUpdate({...config, tone: e.target.value})}
-                  className="w-full rounded-2xl bg-slate-50 border-transparent p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
-                  placeholder="e.g. Professional, Empathetic"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div className="flex justify-center py-2 lg:py-3 opacity-60">
-          <svg className="w-6 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0 0l-4-4m4 4l4-4" />
-          </svg>
-        </div>
-
-        {/* SECTION 4: AGENT SKILLS (TOOLS) */}
+  
+        {/* SECTION 3: AGENT SKILLS (TOOLS) */}
         <section className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
           <div className="px-6 py-5 lg:px-8 lg:py-6 border-b border-slate-50 flex items-center gap-3">
             <div className="p-2 bg-blue-50 rounded-xl text-blue-500">
@@ -510,7 +481,12 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
               </svg>
             </div>
-            <h3 className="font-semibold text-slate-800 text-lg">Agent Skills & Tools</h3>
+            <div>
+              <h3 className="font-semibold text-slate-800 text-lg">Agent Skills & Tools</h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Enable "Agentic" capabilities to perform actions or fetch real-time data.
+              </p>
+            </div>
           </div>
           <div className="p-6 lg:p-8 space-y-6">
             <p className="text-sm text-slate-600 mb-4">
@@ -535,7 +511,7 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
                        {isActive && <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
                     </div>
                     <div>
-                      <h4 className={`font-mono text-sm font-bold ${isActive ? 'text-blue-900' : 'text-slate-700'}`}>
+                      <h4 className={`text-sm font-bold ${isActive ? 'text-blue-900' : 'text-slate-700'}`}>
                         {tool.name}()
                       </h4>
                       <p className="text-sm text-slate-600 mt-1 leading-relaxed">{tool.description}</p>
@@ -546,14 +522,8 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
             </div>
           </div>
         </section>
-
-        <div className="flex justify-center py-2 lg:py-3 opacity-60">
-          <svg className="w-6 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0 0l-4-4m4 4l4-4" />
-          </svg>
-        </div>
-
-         {/* SECTION 5: ESCALATION & HANDOFF */}
+  
+        {/* SECTION 5: ESCALATION & HANDOFF */}
         <section className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
           <div className="px-6 py-5 lg:px-8 lg:py-6 border-b border-slate-50 flex items-center gap-3">
             <div className="p-2 bg-blue-50 rounded-xl text-blue-500">
@@ -561,12 +531,17 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
               </svg>
             </div>
-            <h3 className="font-semibold text-slate-800 text-lg">Human Handoff & Escalation</h3>
+            <div>
+              <h3 className="font-semibold text-slate-800 text-lg">Human Handoff & Escalation</h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Define when the AI should transfer the conversation to a human specialist.
+              </p>
+            </div>
           </div>
           <div className="p-6 lg:p-8 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-slate-700 mb-2">Target Department for Handoff</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Target Service for Handoff</label>
                 <input 
                   type="text" 
                   value={config.handoffDepartment}
@@ -604,22 +579,21 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
             </div>
           </div>
         </section>
-
-        <div className="flex justify-center py-2 lg:py-3 opacity-60">
-          <svg className="w-6 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0 0l-4-4m4 4l4-4" />
-          </svg>
-        </div>
-
+  
         {/* SECTION 6: SECURITY */}
         <section className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
            <div className="px-6 py-5 lg:px-8 lg:py-6 border-b border-slate-50 flex items-center gap-3">
-            <div className="p-2 bg-slate-100 rounded-xl text-slate-500">
+            <div className="p-2 bg-blue-50 rounded-xl text-blue-500">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
             </div>
-            <h3 className="font-semibold text-slate-800 text-lg">Safety & Compliance</h3>
+            <div>
+              <h3 className="font-semibold text-slate-800 text-lg">Safety & Compliance</h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Enforce strict guardrails to ensure secure and compliant AI interactions.
+              </p>
+            </div>
           </div>
           <div className="p-6 lg:p-8 space-y-8">
             <div>
@@ -677,12 +651,6 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
           </div>
         </section>
 
-        <div className="flex justify-center py-2 lg:py-3 opacity-60">
-          <svg className="w-6 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0 0l-4-4m4 4l4-4" />
-          </svg>
-        </div>
-
         {/* SECTION 7: CORE SYSTEM */}
         <section className="bg-slate-900 rounded-3xl shadow-xl border border-slate-800 overflow-hidden relative">
           <div className="px-6 py-5 lg:px-8 lg:py-6 border-b border-slate-800 flex justify-between items-center">
@@ -734,10 +702,10 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
                 value={config.systemInstruction}
                 onChange={(e) => onUpdate({...config, systemInstruction: e.target.value})}
                 rows={12}
-                className="w-full p-6 lg:p-8 text-sm font-mono bg-transparent text-slate-300 focus:outline-none resize-none leading-relaxed custom-scrollbar"
+                className="w-full p-6 lg:p-8 text-sm bg-transparent text-slate-300 focus:outline-none resize-none leading-relaxed custom-scrollbar"
                 placeholder="// Generate directives to see the system prompt here..."
               />
-              <div className="absolute bottom-4 right-6 text-xs text-slate-500 font-mono bg-slate-900/80 px-2 py-1 rounded backdrop-blur-sm">
+              <div className="absolute bottom-4 right-6 text-xs text-slate-500 bg-slate-900/80 px-2 py-1 rounded backdrop-blur-sm">
                 {config.systemInstruction.length} chars
               </div>
             </div>

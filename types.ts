@@ -50,10 +50,13 @@ export interface AgentTool {
 }
 
 export enum Department {
-  GENERAL_SUPPORT = 'General Support',
-  MORTGAGE = 'Mortgages & Loans',
-  FRAUD = 'Fraud & Security',
-  WEALTH = 'Wealth Management',
-  IT = 'Internal IT Helpdesk',
-  HR = 'Human Resources'
+  GENERAL_BANKING = 'General Banking',
+  MORTGAGE_LOAN = 'Mortgage & Loan',
+  CREDIT_CARD = 'Credit Card',
+  WEALTH_MANAGEMENT = 'Wealth Management',
+  BUSINESS_BANKING = 'Business Banking',
+  PRIVATE_BANKING = 'Private Banking',
+  MARKET_INSIGHTS = 'Market Insights',
+  FRAUD_SECURITY = 'Fraud & Security',
+  BANCASSURANCE = 'Bancassurance'
 }

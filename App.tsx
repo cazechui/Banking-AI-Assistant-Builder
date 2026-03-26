@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Sliders, Layers, BarChart3, History, Settings, LucideIcon, MessageSquare } from 'lucide-react';
+import { Sliders, Layers, BarChart3, History, Settings, LucideIcon, MessageSquare, Github, Bot, Shield, Database } from 'lucide-react';
 import { BotConfigurator } from './components/BotConfigurator';
 import { ChatPreview } from './components/ChatPreview';
 import { DepartmentHub } from './components/DepartmentHub';
@@ -29,7 +29,7 @@ const AnalyticsDashboard = ({ config }: { config: BotConfiguration }) => (
           Performance Analytics
         </h2>
         <p className="text-slate-600 text-sm lg:text-base max-w-xl">
-          Monitor chatbot performance and user interactions for <strong className="text-blue-600">{config.department || 'your department'}</strong>.
+          Monitor chatbot performance and user interactions for <strong className="text-blue-600">{config.department || 'your service'}</strong>.
         </p>
       </div>
     </div>
@@ -170,84 +170,110 @@ export default function App() {
   const [showPreviewOnMobile, setShowPreviewOnMobile] = useState(true);
 
   return (
-    <div className="flex h-[100dvh] w-full bg-[#f8f9fc] text-slate-900 font-sans flex-col lg:flex-row">
-      {/* Sidebar */}
-      <div className="hidden lg:flex flex-col w-24 bg-white items-center py-8 justify-between flex-shrink-0 z-20 border-r border-slate-100 shadow-sm">
-        <div className="flex flex-col items-center gap-10 w-full">
-          {/* Nav Items */}
-          <nav className="flex flex-col gap-6 w-full items-center px-2">
-            <NavButton 
-              active={activeTab === 'config'} 
-              onClick={() => setActiveTab('config')} 
-              icon={Sliders}
-              tooltip="Bot Configurator"
-            />
-            <NavButton 
-              active={activeTab === 'departments'} 
-              onClick={() => setActiveTab('departments')} 
-              icon={Layers}
-              tooltip="Departments"
-            />
-            <NavButton 
-              active={activeTab === 'analytics'} 
-              onClick={() => setActiveTab('analytics')} 
-              icon={BarChart3}
-              tooltip="Performance Metrics"
-            />
-            <NavButton 
-              active={activeTab === 'history'} 
-              onClick={() => setActiveTab('history')} 
-              icon={History}
-              tooltip="Version History"
-            />
-          </nav>
-        </div>
+    <div className="flex h-[100dvh] w-full bg-[#f8f9fc] text-slate-900 font-sans flex-col">
+      <div className="flex flex-1 overflow-hidden flex-col lg:flex-row">
+        {/* Sidebar */}
+        <div className="hidden lg:block w-20 flex-shrink-0 z-30 relative group/sidebar">
+          <div className="absolute inset-y-0 left-0 w-20 hover:w-64 transition-all duration-300 ease-in-out bg-white py-8 flex flex-col justify-between border-r border-slate-100 shadow-xl overflow-hidden">
+            <div className="flex flex-col gap-10 w-full">
+              {/* Nav Items */}
+              <nav className="flex flex-col gap-2 w-full px-3">
+                <NavButton 
+                  active={activeTab === 'config'} 
+                  onClick={() => setActiveTab('config')} 
+                  icon={Bot}
+                  label="Assistant Config"
+                />
+                <NavButton 
+                  active={activeTab === 'departments'} 
+                  onClick={() => setActiveTab('departments')} 
+                  icon={Database}
+                  label="Knowledge Base"
+                />
+                <NavButton 
+                  active={activeTab === 'analytics'} 
+                  onClick={() => setActiveTab('analytics')} 
+                  icon={BarChart3}
+                  label="Analytics"
+                />
+                <NavButton 
+                  active={activeTab === 'settings'} 
+                  onClick={() => setActiveTab('settings')} 
+                  icon={Settings}
+                  label="Settings"
+                />
+              </nav>
+            </div>
 
-        {/* Bottom Actions */}
-        <div className="flex flex-col gap-6 w-full items-center px-2">
-           <NavButton 
-              active={activeTab === 'settings'} 
-              onClick={() => setActiveTab('settings')} 
-              icon={Settings}
-              tooltip="Settings"
-            />
-          <div className="w-12 h-12 rounded-full bg-blue-100 border-2 border-white shadow-sm overflow-hidden cursor-pointer hover:border-blue-200 transition flex items-center justify-center text-blue-700 font-semibold text-sm">
-             JD
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content Area: Split View */}
-      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
-        
-        {/* Left Panel: Dynamic Content based on Tab */}
-        <div className={`w-full lg:w-7/12 h-full overflow-y-auto bg-[#f8f9fc] scrollbar-hide ${showPreviewOnMobile ? 'hidden lg:block' : 'block'}`}>
-          {activeTab === 'config' && (
-             <BotConfigurator 
-              config={config} 
-              onUpdate={setConfig} 
-              isGenerating={isGenerating}
-              setIsGenerating={setIsGenerating}
-              onGoToPreview={() => setShowPreviewOnMobile(true)}
-            />
-          )}
-          {activeTab === 'analytics' && <AnalyticsDashboard config={config} />}
-          {activeTab === 'departments' && <DepartmentHub config={config} onUpdate={setConfig} />}
-          {activeTab === 'history' && <PlaceholderView title="Version History" config={config} />}
-          {activeTab === 'settings' && <PlaceholderView title="Settings" config={config} />}
-        </div>
-
-        {/* Right Panel: Preview (Always visible for Config, optional for others) */}
-        <div className={`w-full lg:w-5/12 h-full bg-[#f8f9fc] border-l border-slate-100 z-10 flex-col p-2 lg:p-4 ${showPreviewOnMobile ? 'flex' : 'hidden lg:flex'}`}>
-          <div className="w-full h-full bg-white rounded-2xl lg:rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden flex flex-col relative">
-            <ChatPreview config={config} onGoToConfig={() => setShowPreviewOnMobile(false)} />
+            {/* Bottom Actions */}
+            <div className="flex flex-col gap-4 w-full px-3">
+              <div className="flex items-center gap-4 px-2 py-3">
+                <div className="w-10 h-10 rounded-full bg-blue-100 border-2 border-white shadow-sm overflow-hidden flex-shrink-0 flex items-center justify-center text-blue-700 font-semibold text-sm">
+                   JD
+                </div>
+                <div className="flex flex-col opacity-0 group-hover/sidebar:opacity-100 transition-opacity duration-300 overflow-hidden">
+                  <span className="text-sm font-bold text-slate-800 whitespace-nowrap">John Doe</span>
+                  <span className="text-[10px] text-slate-500 whitespace-nowrap">Admin Account</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
+        {/* Main Content Area: Split View */}
+        <div className="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
+          
+          {/* Left Panel: Dynamic Content based on Tab */}
+          <div className={`w-full lg:w-7/12 h-full overflow-y-auto bg-[#f8f9fc] scrollbar-hide ${showPreviewOnMobile ? 'hidden lg:block' : 'block'}`}>
+            {activeTab === 'config' && (
+               <BotConfigurator 
+                config={config} 
+                onUpdate={setConfig} 
+                isGenerating={isGenerating}
+                setIsGenerating={setIsGenerating}
+                onGoToPreview={() => setShowPreviewOnMobile(true)}
+              />
+            )}
+            {activeTab === 'analytics' && <AnalyticsDashboard config={config} />}
+            {activeTab === 'departments' && <DepartmentHub config={config} onUpdate={setConfig} />}
+            {activeTab === 'history' && <PlaceholderView title="Version History" config={config} />}
+            {activeTab === 'settings' && <PlaceholderView title="Settings" config={config} />}
+            
+            {/* Footer Credit for Left Panel */}
+            <div className="p-8 text-center border-t border-slate-100 space-y-4">
+              <p className="text-[10px] lg:text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
+                This is a personal portfolio prototype. Do not enter real personal or financial information.
+              </p>
+              <div className="flex items-center justify-center gap-4">
+                <p className="text-xs text-slate-400">
+                  Built by <a href="https://linkedin.com/in/cazechui" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline font-medium">Caze Chui</a>
+                </p>
+                <div className="w-px h-3 bg-slate-200"></div>
+                <a 
+                  href="https://github.com/cazechui" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-slate-400 hover:text-slate-600 transition-colors flex items-center gap-1.5 text-xs font-medium"
+                >
+                  <Github className="w-4 h-4" />
+                  GitHub
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Panel: Preview (Always visible for Config, optional for others) */}
+          <div className={`w-full lg:w-5/12 h-full bg-[#f8f9fc] border-l border-slate-100 z-10 flex-col p-2 lg:p-4 ${showPreviewOnMobile ? 'flex' : 'hidden lg:flex'}`}>
+            <div className="w-full h-full bg-white rounded-2xl lg:rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden flex flex-col relative">
+              <ChatPreview config={config} onGoToConfig={() => setShowPreviewOnMobile(false)} />
+            </div>
+          </div>
+
+        </div>
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <div className="lg:hidden flex items-center justify-around bg-white border-t border-slate-200 p-2 pb-4 z-40">
+      <div className="lg:hidden flex items-center justify-around bg-white border-t border-slate-200 p-2 pb-4 z-40 shrink-0">
         <MobileNavButton active={activeTab === 'config' && !showPreviewOnMobile} onClick={() => {setActiveTab('config'); setShowPreviewOnMobile(false);}} icon={Sliders} label="Config" />
         <MobileNavButton active={activeTab === 'departments' && !showPreviewOnMobile} onClick={() => {setActiveTab('departments'); setShowPreviewOnMobile(false);}} icon={Layers} label="Depts" />
         <MobileNavButton active={activeTab === 'analytics' && !showPreviewOnMobile} onClick={() => {setActiveTab('analytics'); setShowPreviewOnMobile(false);}} icon={BarChart3} label="Stats" />
@@ -271,20 +297,19 @@ function MobileNavButton({ active, onClick, icon: Icon, label }: { active: boole
   );
 }
 
-function NavButton({ active, onClick, icon: Icon, tooltip }: { active: boolean, onClick: () => void, icon: LucideIcon, tooltip: string }) {
+function NavButton({ active, onClick, icon: Icon, label }: { active: boolean, onClick: () => void, icon: LucideIcon, label: string }) {
   return (
     <button 
       onClick={onClick}
-      className={`group relative p-3.5 rounded-2xl transition-all duration-200 ${
+      className={`flex items-center gap-4 w-full px-3.5 py-3 rounded-xl transition-all duration-200 ${
         active 
-          ? 'bg-blue-100 text-blue-700 shadow-sm' 
-          : 'text-slate-400 hover:bg-slate-50 hover:text-slate-600'
+          ? 'bg-blue-50 text-blue-600 shadow-sm' 
+          : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'
       }`}
     >
-      <Icon className="w-6 h-6" />
-      {/* Tooltip */}
-      <span className="absolute left-16 top-1/2 -translate-y-1/2 bg-slate-800 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none shadow-lg">
-        {tooltip}
+      <Icon className={`w-6 h-6 shrink-0 ${active ? 'text-blue-600' : 'text-slate-500'}`} />
+      <span className={`font-semibold text-sm whitespace-nowrap transition-all duration-300 opacity-0 group-hover/sidebar:opacity-100 overflow-hidden`}>
+        {label}
       </span>
     </button>
   );

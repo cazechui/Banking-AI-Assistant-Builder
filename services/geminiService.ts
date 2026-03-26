@@ -43,7 +43,7 @@ export const generateSystemPrompt = async (
     - Primary Goal: ${config.goal}
     - Compliance Level: ${config.complianceLevel}
     - Mandatory Guardrails: ${config.guardrails.join('; ')}
-    - Handoff Department: ${config.handoffDepartment}
+    - Handoff Service: ${config.handoffDepartment}
     - Available Tools: ${activeToolNames || "None"}
 
     KNOWLEDGE BASE (CONTEXT):
@@ -56,7 +56,7 @@ export const generateSystemPrompt = async (
     
     Then the model MUST:
     1. Start its response with the tag "[ESCALATE]".
-    2. Provide a polite, reassuring message stating they are connecting the user to the ${config.handoffDepartment}.
+    2. Provide a polite, reassuring message stating they are connecting the user to the service: ${config.handoffDepartment}.
     3. Do NOT attempt to solve the problem further if it requires human authority.
 
     CRITICAL INSTRUCTION - TOOL USE:

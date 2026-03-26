@@ -64,7 +64,7 @@ const ToolCallCard = ({ tool, onApprove }: { tool: ToolCallData, onApprove: () =
         </div>
       </div>
       
-      <div className="bg-white/60 rounded-lg p-2 font-mono text-[10px] text-blue-900 mb-2 overflow-x-auto">
+      <div className="bg-white/60 rounded-lg p-2 text-[10px] text-blue-900 mb-2 overflow-x-auto">
         <span className="font-bold text-blue-600">{tool.name}</span>
         <span className="text-slate-600">(</span>
         <span className="text-slate-700">{JSON.stringify(tool.args, null, 1).replace(/{|}/g, '').trim()}</span>
@@ -99,7 +99,7 @@ const EscalationCard = ({ text, department }: { text: string; department: string
       <div className="flex-1">
         <h4 className="font-semibold text-blue-900 text-xs">Escalation Triggered</h4>
         <p className="text-[10px] text-blue-800 mt-0.5">
-           Transferring conversation to <strong>{department}</strong>. 
+           Transferring conversation to the <strong>{department}</strong> service. 
         </p>
         <div className="mt-2 flex gap-1.5">
            <div className="h-1 w-1 bg-blue-500 rounded-full animate-pulse"></div>
@@ -589,7 +589,7 @@ export const ChatPreview: React.FC<ChatPreviewProps> = ({ config, onGoToConfig }
                   onApprove={pendingToolCall?.id === msg.toolCall.id ? handleToolApproval : () => {}} 
                 />
               ) : msg.toolResult ? (
-                 <div className="bg-blue-50 border border-blue-100 rounded-xl p-3 text-xs font-mono text-blue-900 overflow-x-auto w-full mb-2">
+                 <div className="bg-blue-50 border border-blue-100 rounded-xl p-3 text-xs text-blue-900 overflow-x-auto w-full mb-2">
                     <div className="font-bold text-blue-700 mb-1">Result: {msg.toolResult.name}</div>
                     {JSON.stringify(msg.toolResult.result, null, 1).replace(/{|}/g, '').trim()}
                  </div>

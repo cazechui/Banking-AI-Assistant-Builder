@@ -1,20 +1,65 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Financial AI Chatbot Workbench
 
-# Run and deploy your AI Studio app
+A professional workbench for banking business users to design, test, and refine AI chatbots with compliance guardrails and automated prompt engineering.
 
-This contains everything you need to run your app locally.
+**Note: This is a personal portfolio prototype. Do not enter real personal or financial information.**
 
-View your app in AI Studio: https://ai.studio/apps/5f8abb8b-86c9-4268-b7cf-4d819be14e7d
+## 🚀 Overview
 
-## Run Locally
+This application is a self-built prototype designed for learning and demonstration purposes. It showcases how a modern financial institution might empower non-technical staff to build sophisticated AI assistants using Retrieval-Augmented Generation (RAG) and advanced prompt engineering.
 
-**Prerequisites:**  Node.js
+## 🛠 Architecture
 
+- **Frontend**: React 18 (TypeScript) for a robust, type-safe user interface.
+- **Build Tool**: Vite for fast development and optimized production builds.
+- **AI Engine**: Google Gemini API (via `@google/genai` SDK) powering the chatbot and the automated system directive generation.
+- **Styling**: Tailwind CSS for a clean, professional, and responsive financial dashboard aesthetic.
+- **Icons**: Lucide React for a consistent and modern icon set.
+- **RAG Simulation**: A sophisticated simulation of document chunking and vector embedding to demonstrate the RAG workflow.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## ⚙️ Key Features
+
+- **Bot Configurator**: Define bot persona, goals, and tone.
+- **Automated Prompt Engineering**: Generate complex system instructions using AI based on high-level goals.
+- **Knowledge Base (RAG)**: Upload documents to provide context-aware answers.
+- **Compliance Guardrails**: Toggle safety rules to ensure the bot stays within financial regulations.
+- **Agentic Tools**: Enable the bot to call simulated banking functions (e.g., `check_balance`, `escalate_to_human`).
+- **Real-time Preview**: Test the bot immediately in a side-by-side chat interface.
+
+## 💻 Local Setup
+
+To run this project locally:
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/cazechui/banking-chatbot-demo.git
+   cd banking-chatbot-demo
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Configure Environment Variables**:
+   Create a `.env` file in the root directory and add your Gemini API key:
+   ```env
+   GEMINI_API_KEY=your_api_key_here
+   ```
+
+4. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
+
+5. **Open the app**:
+   Navigate to `http://localhost:3000` in your browser.
+
+## 👤 Author
+
+Built by **Caze Chui**
+- [LinkedIn](https://linkedin.com/in/cazechui)
+- [GitHub](https://github.com/cazechui)
+
+---
+*Disclaimer: This project is a demonstration of UI/UX and AI integration capabilities. It is not intended for production use with sensitive financial data.*
