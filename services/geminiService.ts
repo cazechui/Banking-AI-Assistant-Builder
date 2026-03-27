@@ -2,8 +2,37 @@ import { GoogleGenAI, Chat, GenerateContentResponse, Content, FunctionDeclaratio
 import { BotConfiguration, ChatMessage } from "../types";
 import { BANKING_TOOLS } from "../constants";
 
-const apiKey = process.env.GEMINI_API_KEY || process.env.API_KEY || '';
-const ai = new GoogleGenAI({ apiKey });
+const getApiKey = () => {
+  if (typeof window !== 'undefined') {
+    try {
+      const storedKey = localStorage.getItem('GEMINI_API_KEY');
+      if (storedKey) return storedKey;
+    } catch (e) {
+      console.warn('localStorage access denied', e);
+    }
+  }
+  return process.env.GEMINI_API_KEY || process.env.API_KEY || '';
+};
+
+let apiKey = getApiKey();
+let ai = new GoogleGenAI({ apiKey });
+
+export const updateApiKey = (newKey: string) => {
+  try {
+    if (newKey) {
+      localStorage.setItem('GEMINI_API_KEY', newKey);
+      apiKey = newKey;
+    } else {
+      localStorage.removeItem('GEMINI_API_KEY');
+      apiKey = getApiKey();
+    }
+  } catch (e) {
+    console.warn('localStorage access denied', e);
+    // Fallback to in-memory key if localStorage fails
+    apiKey = newKey || getApiKey();
+  }
+  ai = new GoogleGenAI({ apiKey });
+};
 
 /**
  * Generates a professional system instruction/prompt based on high-level business requirements.
@@ -12,7 +41,7 @@ export const generateSystemPrompt = async (
   config: Pick<BotConfiguration, 'role' | 'tone' | 'goal' | 'complianceLevel' | 'guardrails' | 'escalationTriggers' | 'handoffDepartment' | 'activeTools' | 'knowledgeBase' | 'model'>
 ): Promise<string> => {
   if (!apiKey) {
-    throw new Error("Gemini API Key is missing. Please set GEMINI_API_KEY in your environment variables.");
+    throw new Error("Gemini API Key is missing. If deployed to Vercel, ensure GEMINI_API_KEY is set in your project settings.");
   }
   const model = config.model || "gemini-2.5-flash";
   

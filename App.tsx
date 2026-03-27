@@ -4,6 +4,7 @@ import { Sliders, Layers, BarChart3, History, Settings, LucideIcon, MessageSquar
 import { BotConfigurator } from './components/BotConfigurator';
 import { ChatPreview } from './components/ChatPreview';
 import { DepartmentHub } from './components/DepartmentHub';
+import { SettingsView } from './components/SettingsView';
 import { BotConfiguration } from './types';
 import { DEFAULT_CONFIG } from './constants';
 
@@ -238,7 +239,7 @@ export default function App() {
             {activeTab === 'analytics' && <AnalyticsDashboard config={config} />}
             {activeTab === 'departments' && <DepartmentHub config={config} onUpdate={setConfig} />}
             {activeTab === 'history' && <PlaceholderView title="Version History" config={config} />}
-            {activeTab === 'settings' && <PlaceholderView title="Settings" config={config} />}
+            {activeTab === 'settings' && <SettingsView />}
             
             {/* Footer Credit for Left Panel */}
             <div className="p-8 text-center border-t border-slate-100 space-y-4">
