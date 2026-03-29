@@ -248,7 +248,7 @@ export default function App() {
               </p>
               <div className="flex items-center justify-center gap-4">
                 <p className="text-xs text-slate-400">
-                  Built by <a href="https://linkedin.com/in/cazechui" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline font-medium">Caze Chui</a>
+                  Built by <a href="https://www.linkedin.com/in/hoiyuenchui/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline underline-offset-2 font-medium transition-colors hover:text-blue-600">Caze Chui</a>
                 </p>
                 <div className="w-px h-3 bg-slate-200"></div>
                 <a 

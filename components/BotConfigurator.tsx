@@ -661,18 +661,23 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
         </section>
 
         {/* SECTION 7: CORE SYSTEM */}
-        <section className="bg-slate-900 rounded-3xl shadow-xl border border-slate-800 overflow-hidden relative">
-          <div className="px-6 py-5 lg:px-8 lg:py-6 border-b border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-slate-800 rounded-xl text-blue-400">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                </svg>
+        <section className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden relative">
+          <div className="px-6 py-5 lg:px-8 lg:py-6 border-b border-slate-100 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6">
+            <div className="flex flex-col gap-2 flex-1 pr-0 xl:pr-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-50 rounded-xl text-blue-600">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                  </svg>
+                </div>
+                <h3 className="font-semibold text-slate-800 text-lg">Chatbot Instructions (System Prompt)</h3>
               </div>
-              <h3 className="font-semibold text-white text-lg">AI Core Directives</h3>
+              <p className="text-slate-500 text-sm leading-relaxed">
+                This is the final prompt generated from the configurations above. After clicking generate, you can also make final manual adjustments.
+              </p>
             </div>
             
-            <div className="flex items-center gap-2 w-full sm:w-auto">
+            <div className="flex items-center gap-2 w-full xl:w-auto shrink-0">
               {onGoToPreview && config.systemInstruction && (
                 <button
                   onClick={onGoToPreview}
@@ -698,7 +703,7 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
                 ) : (
                   <>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                    Generate Directives
+                    Generate Instructions
                   </>
                 )}
               </button>
@@ -711,10 +716,10 @@ export const BotConfigurator: React.FC<BotConfiguratorProps> = ({
                 value={config.systemInstruction}
                 onChange={(e) => onUpdate({...config, systemInstruction: e.target.value})}
                 rows={12}
-                className="w-full p-6 lg:p-8 text-sm bg-transparent text-slate-300 focus:outline-none resize-none leading-relaxed custom-scrollbar"
-                placeholder="// Generate directives to see the system prompt here..."
+                className="w-full p-6 lg:p-8 text-sm bg-transparent text-slate-700 focus:outline-none resize-none leading-relaxed custom-scrollbar"
+                placeholder="// Click 'Generate Instructions' to see the system prompt here..."
               />
-              <div className="absolute bottom-4 right-6 text-xs text-slate-500 bg-slate-900/80 px-2 py-1 rounded backdrop-blur-sm">
+              <div className="absolute bottom-4 right-6 text-xs text-slate-400 bg-white/80 px-2 py-1 rounded backdrop-blur-sm">
                 {config.systemInstruction.length} chars
               </div>
             </div>
